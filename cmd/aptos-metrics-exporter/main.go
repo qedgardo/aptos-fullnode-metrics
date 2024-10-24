@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -10,6 +12,12 @@ import (
 )
 
 func main() {
+	// -p flag for the server port. Default value: 2112
+	var port int
+
+	flag.IntVar(&port, "p", 2112, "Server port")
+	flag.Parse()
+
 	// Set up the HTTP handler for Prometheus metrics
 	http.Handle("/metrics", promhttp.Handler())
 
@@ -24,9 +32,10 @@ func main() {
 	// Fetch the block height initially to set the initial value before scraping starts
 	collector.FetchLatestBlockHeight()
 
+	address := fmt.Sprintf(":%d", port)
 	// Start the HTTP server
-	log.Println("Starting server on :2112")
-	if err := http.ListenAndServe(":2112", nil); err != nil {
+	log.Printf("Starting server on %s", address)
+	if err := http.ListenAndServe(address, nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }

@@ -20,17 +20,20 @@ By default, the exporter will fetch the block height in `http://localhost:8080/v
 2. **Build the binary**:
 
     ```bash
-    go get github.com/prometheus/client_golang/prometheus
-    go get github.com/prometheus/client_golang/prometheus/promhttp
-    go build -o aptos-metrics-exporter ./cmd/aptos-metrics-exporter
+    make build
     ```
-
+    You can find the built binary in the `build/bin` directory.
 3. **Run the exporter**:
 
     After building the binary, run it:
 
     ```bash
     ./aptos-metrics-exporter
+    ```
+
+    You can specify a different port by adding the `-p` flag followed by the desired port number. For example, to run the exporter on port `9090`:
+    ```bash
+    ./aptos-metrics-exporter -p 9090
     ```
 
 4. **Prometheus Configuration**:
